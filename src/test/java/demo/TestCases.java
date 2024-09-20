@@ -1,6 +1,7 @@
 package demo;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -61,15 +62,16 @@ public class TestCases {
     @Test
     public void testCase01() throws InterruptedException{
         System.out.println("Beginning Test Case 01");
-        
+
         double starRating = 4.0;
         driver.get("https://www.flipkart.com/");
         Wrappers.enterTextWrapper(driver, By.xpath("//input[@title='Search for Products, Brands and More']"), "Washing Machine");
         Thread.sleep(3000);
         Wrappers.clickOnElementWapper(driver, By.xpath("//div[contains(text(),'Popularity')]"));
         Boolean status = Wrappers.seachStarRatingAndPrintCount(driver, By.xpath("//span[contains(@id,'productRating')]/div"), starRating);
+        Thread.sleep(3000);
         Assert.assertTrue(status);
-
+        
         System.out.println("Ending Test Case 01");
     }
 
@@ -77,17 +79,28 @@ public class TestCases {
     public void testCase02() throws InterruptedException{
         System.out.println("Beginning Test Case 02");
 
-        int disount = 17;
+        int discount = 17;
         driver.get("https://www.flipkart.com/");
+        Wrappers.enterTextWrapper(driver, By.xpath("//input[@title='Search for Products, Brands and More']"), "iPhone");
         Thread.sleep(3000);
-        Wrappers.enterTextWrapper(driver, By.xpath("//input[@title='Search for products, brands and more']"), "iPhone");
-        
-    Boolean status = Wrappers.printTitleAndDiscountIphone(driver, By.xpath("//div[contains(@class,'yKfJKb')]"), 17);
-    Thread.sleep(3000);
-    Assert.assertTrue(status);
+        String typedText = driver.findElement(By.xpath("//input[@title='Search for products, brands and more']")).getAttribute("value");  
+        Assert.assertTrue(typedText.contains("iPhone"), "Typed 'iPhone' into the search box");
+        //System.out.println("work till here");
+        Thread.sleep(3000);
+        WebElement  discountElement = driver.findElement(By.xpath("//div[@class='UkUFwK']/span"));
+        String discountValue = discountElement.getText().replace("\\d","");
+        //int discountValue = Integer.parseInt(discountPercent.replaceAll("[^\\d]", ""));
+        Assert.assertTrue(discountValue.contains("% off"), "Got discounts for the phones");
+        //System.out.println("Got discounts for the phones");
+        Thread.sleep(3000);
+        Boolean status = Wrappers.printTitleAndDiscountIphone(driver, By.xpath("//div[contains(@class,'yKfJKb')]"), 17);
+        Assert.assertTrue(status);
 
+
+   
         System.out.println("Ending Test Case 02");
     }
+
 
     @Test
     public void testCase03() throws InterruptedException{

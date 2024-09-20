@@ -4,7 +4,10 @@
     <test name = "Test Cases for Buildout">
        <classes>          
             <class name="demo.TestCases"></class>
+         
+            
 
-        </classes>
+    
+               </classes>
     </test>
 </suite>
